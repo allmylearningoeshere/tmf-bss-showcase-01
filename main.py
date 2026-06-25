@@ -16,12 +16,13 @@ from datetime import datetime, timezone
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 
 from services.party import router as party_router
 from services.catalog import router as catalog_router
 from services.order import router as order_router
 from shared.events import get_event_log
-
 # ---------------------------------------------------------------------------
 # Application
 # ---------------------------------------------------------------------------
@@ -53,6 +54,12 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # ---------------------------------------------------------------------------
 # Routers
 # ---------------------------------------------------------------------------
