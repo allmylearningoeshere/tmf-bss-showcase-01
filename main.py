@@ -1,10 +1,12 @@
 """
 TMF BSS Showcase — main entry point.
 
-A single FastAPI application that mounts four TMF-compliant routers:
+A single FastAPI application that mounts six TMF-compliant routers:
   • TMF632  Party Management         /party/v5/…
   • TMF620  Product Catalog          /productCatalog/v4/…
   • TMF622  Product Ordering         /productOrderingManagement/v4/…
+  • TMF629  Customer Management      /customerManagement/v4/…
+  • TMF637  Product Inventory        /productInventory/v4/…
   • TMF666  Account Management       /accountManagement/v4/…
   • TMF688  Event Management         /hub/…
 
@@ -27,6 +29,8 @@ from services.party import router as party_router
 from services.catalog import router as catalog_router
 from services.order import router as order_router
 from services.account import router as account_router
+from services.customer import router as customer_router
+from services.inventory import router as inventory_router
 from shared.events import (
     get_event_log,
     get_event_stats,
@@ -53,6 +57,8 @@ app = FastAPI(
         "| **TMF632** | Party Management | Create and manage customer contacts |\n"
         "| **TMF620** | Product Catalog | Browse product specs, offerings, and pricing |\n"
         "| **TMF622** | Product Ordering | Place orders with automatic fulfilment state machine |\n"
+        "| **TMF629** | Customer Management | Create customers from parties with accounts |\n"
+        "| **TMF637** | Product Inventory | Track active subscriptions and services |\n"
         "| **TMF666** | Account Management | Create and manage billing accounts |\n"
         "| **TMF688** | Event Management | Inspect domain events and register subscriptions |\n\n"
         "---\n\n"
@@ -92,6 +98,8 @@ app.include_router(party_router)
 app.include_router(catalog_router)
 app.include_router(order_router)
 app.include_router(account_router)
+app.include_router(customer_router)
+app.include_router(inventory_router)
 
 # ---------------------------------------------------------------------------
 # Health check
@@ -112,7 +120,7 @@ def health() -> dict:
         "status": "ok",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "version": "1.0.0",
-        "services": ["TMF632", "TMF620", "TMF622", "TMF666", "TMF688"],
+        "services": ["TMF632", "TMF620", "TMF622", "TMF629", "TMF637", "TMF666", "TMF688"],
     }
 
 

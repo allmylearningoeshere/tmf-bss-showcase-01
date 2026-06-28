@@ -33,6 +33,8 @@ _DOMAIN_MAP = {
     "ProductOffering": "catalog",
     "ProductOrder": "order",
     "BillingAccount": "account",
+    "Customer": "customer",
+    "Product": "inventory",
 }
 
 

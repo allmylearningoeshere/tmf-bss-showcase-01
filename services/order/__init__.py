@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, Query, BackgroundTasks
 from fastapi.responses import JSONResponse
 
-from shared.store import product_orders
+from shared.store import product_orders, product_inventory
 from shared.events import publish
 from shared.schemas.tmf622 import (
     ProductOrder,
@@ -117,6 +117,52 @@ async def _advance_order(order_id: str) -> None:
             "transitionTime": now,
         },
     })
+
+    # --- Auto-create product inventory entries ---
+    for item in record.get("orderItem", []):
+        if item.get("action") != "add":
+            continue
+
+        offering_ref = item.get("productOffering", {})
+        product_id = str(uuid.uuid4())
+        inv_base = "/productInventory/v4/product"
+
+        product_record = {
+            "id": product_id,
+            "href": f"{inv_base}/{product_id}",
+            "name": offering_ref.get("name", "Unknown product"),
+            "description": f"Provisioned from order {record['id']}",
+            "status": "active",
+            "isBundle": False,
+            "isCustomerVisible": True,
+            "startDate": now,
+            "terminationDate": None,
+            "createdAt": now,
+            "lastUpdatedAt": now,
+            "@type": "Product",
+            "@baseType": "Product",
+            "productOffering": {
+                "id": offering_ref.get("id", ""),
+                "href": offering_ref.get("href"),
+                "name": offering_ref.get("name"),
+                "@referredType": "ProductOffering",
+            },
+            "relatedParty": record.get("relatedParty", []),
+            "productOrderItem": [
+                {
+                    "id": record["id"],
+                    "href": record["href"],
+                    "orderItemId": item.get("id"),
+                    "@referredType": "ProductOrder",
+                },
+            ],
+        }
+
+        product_inventory[product_id] = product_record
+
+        publish("ProductCreateEvent", {
+            "product": product_record,
+        })
 
 
 # ---------------------------------------------------------------------------
