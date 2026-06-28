@@ -1,96 +1,91 @@
 # TMF BSS Showcase
 
-A TM Forum Open API–compliant Business Support Systems stack built with **Python + FastAPI**.  
+A **TM Forum Open API–compliant** Business Support Systems stack built with Python + FastAPI.
+
 Designed as a portfolio project demonstrating BSS domain knowledge and TMF API specification fluency.
 
-**Live demo:** `https://your-app.onrender.com/docs`
+**Live demo:** [https://tmf-bss-showcase-01.onrender.com/docs](https://tmf-bss-showcase-01.onrender.com/docs)
 
 ---
 
 ## What this demonstrates
 
-| API | Domain | Endpoints |
-|-----|--------|-----------|
-| TMF632 | Party Management | Create / retrieve individuals and organisations |
-| TMF620 | Product Catalog | Browse product offerings and specifications |
-| TMF622 | Product Ordering | Place orders; watch state machine advance automatically |
+| API | Domain | Endpoints | What it does |
+|-----|--------|-----------|--------------|
+| **TMF632** | Party Management | 5 | Create, retrieve, update, and delete customer contacts |
+| **TMF620** | Product Catalog | 10 | Browse product specifications, offerings, and pricing |
+| **TMF622** | Product Ordering | 5 | Place orders with automatic fulfilment state machine |
+| **TMF688** | Event Management | 5 | Query events, view stats, register subscriptions |
 
-All data is stubbed — no external systems are called.  Orders automatically
-advance `acknowledged → inProgress → completed` via a background task,
-demonstrating understanding of BSS fulfilment process flows.
+**Total: 26 endpoints** — all TMF-specification-compliant, all live.
+
+All data is stubbed in-memory — no external systems are called.  Orders automatically
+advance `acknowledged → inProgress → completed` via a background task, demonstrating
+understanding of BSS fulfilment process flows.
 
 ---
 
 ## Demo walkthrough
 
-All commands run against the live URL.  Replace `BASE` with your deployed host.
+All commands run against the live URL.
 
 ```bash
-BASE=https://your-app.onrender.com
+BASE=https://tmf-bss-showcase-01.onrender.com
 
-# 1. Confirm the service is healthy
-curl $BASE/health
+# 1. Health check
+curl -s $BASE/health | jq .
 
 # 2. Create a contact (TMF632 Individual)
 curl -s -X POST $BASE/party/v5/individual \
   -H "Content-Type: application/json" \
   -d '{
     "fullName": "Ajay Kumar",
-    "contactMedium": [{"mediumType": "email", "characteristic": {"emailAddress": "ajay@example.com"}}]
+    "givenName": "Ajay",
+    "familyName": "Kumar",
+    "contactMedium": [{
+      "mediumType": "email",
+      "preferred": true,
+      "characteristic": {"emailAddress": "ajay@example.com"}
+    }],
+    "partyCharacteristic": [{"name": "loyaltyTier", "value": "Gold"}]
   }' | jq .
 
-# 3. Browse product offerings (TMF620) — seeded on startup
+# 3. Browse product offerings (TMF620 — 3 pre-seeded)
 curl -s $BASE/productCatalog/v4/productOffering | jq .
 
-# 4. Place a product order (TMF622)
+# 4. Browse product specifications
+curl -s $BASE/productCatalog/v4/productSpecification | jq .
+
+# 5. Place a product order (TMF622)
 curl -s -X POST $BASE/productOrderingManagement/v4/productOrder \
   -H "Content-Type: application/json" \
   -d '{
-    "description": "New mobile plan order",
-    "orderItem": [{"id": "1", "quantity": 1, "action": "add",
-      "productOffering": {"id": "offering-001", "name": "Mobile 5G Plan"}}]
+    "description": "New 5G plan order",
+    "externalId": "CRM-2026-0042",
+    "relatedParty": [{"id": "party-001", "name": "Ajay Kumar", "role": "customer"}],
+    "orderItem": [{
+      "id": "1",
+      "quantity": 1,
+      "action": "add",
+      "productOffering": {"id": "offering-5g-unlimited", "name": "Mobile 5G Unlimited"}
+    }],
+    "note": [{"author": "Sales Agent", "text": "VIP customer - expedite"}]
   }' | jq .
 
-# 5. Poll the order — state advances automatically (save the id from step 4)
-curl -s $BASE/productOrderingManagement/v4/productOrder/<ORDER_ID> | jq .state
+# 6. Poll order state (save the id from step 5) — wait 3s for inProgress, 8s for completed
+curl -s $BASE/productOrderingManagement/v4/productOrder/<ORDER_ID> | jq '{id, state, completionDate}'
 
-# 6. Inspect the event log (TMF688-style hub)
+# 7. Event log — see all domain events
 curl -s $BASE/hub | jq .
-```
 
-A `demo.sh` script that runs the full sequence automatically is included.
+# 8. Filter events by type
+curl -s "$BASE/hub?eventType=ProductOrderStateChangeEvent" | jq .
 
----
+# 9. Filter events by domain
+curl -s "$BASE/hub?domain=order" | jq .
 
-## Run locally
-
-```bash
-git clone https://github.com/your-handle/tmf-bss-showcase
-cd tmf-bss-showcase
-python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload
-# → http://localhost:8000/docs
-```
-
----
-
-## Deploy
-
-### Render (recommended — free tier)
-1. Push to GitHub
-2. New Web Service → connect repo → Render auto-detects `render.yaml`
-3. Deploy — your live URL appears in the dashboard
-
-### Railway
-1. Push to GitHub  
-2. New Project → Deploy from GitHub → select repo  
-3. `railway.json` is picked up automatically
-
-### Fly.io
-```bash
-fly launch   # reads fly.toml
-fly deploy
+# 10. Event statistics
+curl -s $BASE/hub/stats | jq .
 ```
 
 ---
@@ -99,22 +94,53 @@ fly deploy
 
 ```
 main.py               ← single FastAPI app, mounts all routers
-├── services/party    ← TMF632 router
-├── services/catalog  ← TMF620 router
-├── services/order    ← TMF622 router + state machine background task
+├── services/party/   ← TMF632 Individual CRUD + events
+├── services/catalog/ ← TMF620 ProductSpec & ProductOffering CRUD + seed data
+├── services/order/   ← TMF622 ProductOrder + background state machine
 └── shared/
     ├── store.py      ← in-memory dicts (no database needed)
-    └── events.py     ← lightweight pub/sub event bus
+    ├── events.py     ← TMF688 event bus with filtering + subscriptions
+    └── schemas/      ← Pydantic models matching TMF JSON wire format
+        ├── tmf632.py
+        ├── tmf620.py
+        └── tmf622.py
+```
+
+### Key design decisions
+
+- **Single process, single app** — no inter-service networking; all routers share the same in-memory store
+- **Pydantic models with camelCase aliases** — Python code uses snake_case; JSON wire format matches TMF specs exactly
+- **Background task state machine** — orders auto-advance through fulfilment states with real delays
+- **Event-driven** — every mutation publishes a TMF688-style event with eventId, correlationId, and domain tagging
+- **Seeded catalog** — 3 product specifications and 3 offerings load on startup so the API is never empty
+
+---
+
+## Run locally
+
+```bash
+git clone https://github.com/allmylearningoeshere/tmf-bss-showcase-01
+cd tmf-bss-showcase-01
+python -m venv venv && source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt && pip install -e .
+python -m uvicorn main:app --reload
+# → http://localhost:8000/docs
 ```
 
 ---
 
-## Roadmap
+## Deploy to Render
 
-- [ ] Sprint 2 — TMF632 Party Management (full CRUD)  
-- [ ] Sprint 3 — TMF620 Product Catalog (offerings, specs, pricing)  
-- [ ] Sprint 4 — TMF622 Product Ordering + state machine  
-- [ ] Sprint 5 — TMF688-style event notifications  
-- [ ] Sprint 6 — Polish, demo script, tagged release  
+1. Push to GitHub
+2. New Web Service → connect repo → Render detects `render.yaml`
+3. Set env var `PYTHON_VERSION=3.11.0` in the Render dashboard
+4. Deploy — live URL appears in the dashboard
 
-Future phases: TMF637 Product Inventory · TMF678 Customer Bill · TMF666 Account · TMF621 Trouble Ticket
+---
+
+## Tech stack
+
+- **Python 3.11** + **FastAPI** + **Pydantic v2**
+- **Uvicorn** ASGI server
+- **Render** cloud hosting (free tier)
+- **Swagger UI** auto-generated API documentation
