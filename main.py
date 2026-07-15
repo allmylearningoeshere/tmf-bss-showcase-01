@@ -30,7 +30,7 @@ from services.catalog import router as catalog_router
 from services.order import router as order_router
 from services.account import router as account_router
 from services.customer import router as customer_router
-# from services.inventory import router as inventory_router
+from services.inventory import router as inventory_router
 from shared.events import (
     get_event_log,
     get_event_stats,
@@ -99,7 +99,7 @@ app.include_router(catalog_router)
 app.include_router(order_router)
 app.include_router(account_router)
 app.include_router(customer_router)
-#app.include_router(inventory_router)
+app.include_router(inventory_router)
 
 # ---------------------------------------------------------------------------
 # Health check
