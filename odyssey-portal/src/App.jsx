@@ -66,7 +66,6 @@ export default function App() {
         <div className="brand-mark">O</div>
         <div>
           <div className="brand-name">Odyssey</div>
-          <div className="brand-sub">SIM-only plans</div>
         </div>
       </header>
 

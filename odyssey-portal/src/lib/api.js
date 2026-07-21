@@ -175,4 +175,13 @@ export function listInventory() {
   return request('/productInventory/v4/product')
 }
 
+// ---------------------------------------------------------------------------
+// Address Lookup (OpenPLZ proxy)
+// ---------------------------------------------------------------------------
+
+// Returns the streets registered in a German postcode, via the backend proxy.
+export function lookupStreets(postalCode) {
+  return request(`/addressLookup/v1/streets?postalCode=${encodeURIComponent(postalCode)}`)
+}
+
 export { BASE as API_BASE }

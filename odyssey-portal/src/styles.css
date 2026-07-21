@@ -263,3 +263,76 @@ body {
   .spin { animation: none; }
   * { transition: none !important; }
 }
+
+/* Field validation ------------------------------------------------------- */
+.field-error {
+  font-size: 11px; color: #c0392b; margin-top: 4px; display: block;
+}
+.form-group input.invalid,
+.phone-wrap.invalid { border-color: #c0392b !important; }
+.phone-wrap.invalid input { border-color: #c0392b !important; }
+.lookup-wrap input.invalid { border-color: #c0392b !important; }
+
+/* Address lookup --------------------------------------------------------- */
+.lookup-wrap { display: flex; align-items: stretch; gap: 8px; }
+.lookup-wrap input { flex: 1; }
+.lookup-btn {
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+  padding: 0 14px; height: 40px;
+  background: var(--surface-1); color: var(--ink-2);
+  border: 1px solid var(--line-strong); border-radius: var(--radius);
+  font-size: 13px; font-weight: 500; font-family: var(--sans); cursor: pointer;
+  transition: all .15s;
+}
+.lookup-btn:hover { border-color: var(--red); color: var(--red); }
+.lookup-btn svg { flex-shrink: 0; }
+
+/* Address lookup modal --------------------------------------------------- */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.45);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 5vh 1rem; z-index: 1000;
+}
+.modal {
+  background: var(--surface); border-radius: 14px; width: 100%; max-width: 460px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25); display: flex; flex-direction: column;
+  max-height: 85vh; overflow: hidden;
+}
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--line);
+}
+.modal-title { font-size: 16px; font-weight: 600; }
+.modal-close {
+  background: none; border: none; color: var(--ink-3); cursor: pointer;
+  padding: 4px; display: flex; border-radius: 6px;
+}
+.modal-close:hover { background: var(--surface-1); color: var(--ink); }
+.modal-search { display: flex; gap: 8px; padding: 1.1rem 1.25rem 0.75rem; }
+.modal-search input {
+  flex: 1; height: 42px; border: 1px solid var(--line-strong);
+  border-radius: var(--radius); padding: 0 12px; font-size: 14px;
+  font-family: var(--sans); outline: none;
+}
+.modal-search input:focus { border-color: var(--red); border-width: 1.5px; }
+.modal-search-btn { width: auto; height: 42px; padding: 0 20px; margin-top: 0; flex-shrink: 0; }
+.modal-error {
+  margin: 0 1.25rem 0.5rem; padding: 8px 12px; font-size: 12px;
+  background: #fdf0f0; border: 1px solid #f3caca; border-radius: var(--radius); color: #a12626;
+}
+.modal-results { overflow-y: auto; padding: 0.25rem 0.75rem 1rem; }
+.modal-hint { padding: 1.25rem; font-size: 13px; color: var(--ink-3); text-align: center; }
+.result-list { list-style: none; }
+.result-item {
+  width: 100%; text-align: left; background: none; border: none;
+  padding: 11px 12px; border-radius: var(--radius); cursor: pointer;
+  display: flex; flex-direction: column; gap: 2px; font-family: var(--sans);
+  transition: background .12s;
+}
+.result-item:hover { background: var(--red-tint); }
+.result-street { font-size: 14px; font-weight: 600; color: var(--ink); }
+.result-meta { font-size: 12px; color: var(--ink-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .modal { box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+}

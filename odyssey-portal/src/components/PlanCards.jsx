@@ -2,7 +2,7 @@ export default function PlanCards({ plans, loading, error, selectedId, onSelect,
   if (loading) {
     return (
       <section className="section">
-        <div className="section-label">Choose your SIM-only plan</div>
+        <div className="section-label">Start your journey here</div>
         <div className="plan-grid">
           {[0, 1, 2].map((i) => <div className="plan-card skeleton" key={i} />)}
         </div>
@@ -14,7 +14,7 @@ export default function PlanCards({ plans, loading, error, selectedId, onSelect,
   if (error) {
     return (
       <section className="section">
-        <div className="section-label">Choose your SIM-only plan</div>
+        <div className="section-label">Start your journey here</div>
         <div className="notice error">
           Couldn't load plans from the catalogue. The backend may be waking up —
           this can take up to a minute on the free tier. Try again shortly.
@@ -27,7 +27,7 @@ export default function PlanCards({ plans, loading, error, selectedId, onSelect,
   if (!plans.length) {
     return (
       <section className="section">
-        <div className="section-label">Choose your SIM-only plan</div>
+        <div className="section-label">Start your journey here</div>
         <div className="notice">No plans available right now. Check back soon.</div>
       </section>
     )
@@ -35,7 +35,7 @@ export default function PlanCards({ plans, loading, error, selectedId, onSelect,
 
   return (
     <section className="section">
-      <div className="section-label">Choose your SIM-only plan</div>
+      <div className="section-label">Start your journey here</div>
       <div className="plan-grid">
         {plans.map((p) => (
           <div

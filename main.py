@@ -31,6 +31,7 @@ from services.order import router as order_router
 from services.account import router as account_router
 from services.customer import router as customer_router
 from services.inventory import router as inventory_router
+from services.address_lookup import router as address_lookup_router
 from shared.events import (
     get_event_log,
     get_event_stats,
@@ -100,6 +101,8 @@ app.include_router(order_router)
 app.include_router(account_router)
 app.include_router(customer_router)
 app.include_router(inventory_router)
+app.include_router(address_lookup_router)
+
 
 # ---------------------------------------------------------------------------
 # Health check
