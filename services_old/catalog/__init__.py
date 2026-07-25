@@ -34,8 +34,8 @@ from shared.schemas.tmf620 import (
     ProductOfferingUpdate,
 )
 
-# Seeding is deferred to application startup (see main.py) so it runs after
-# the database tables exist, and only when the catalogue is empty.
+# Load seed data on import
+from services.catalog.seed import _seed  # noqa: F401
 
 router = APIRouter(
     prefix="/productCatalog/v4",
@@ -180,8 +180,6 @@ def patch_spec(spec_id: str, body: ProductSpecificationUpdate) -> JSONResponse:
     updates = body.model_dump(by_alias=True, exclude_none=True)
     record.update(updates)
     record["lastUpdate"] = datetime.now(timezone.utc).isoformat()
-
-    product_specifications[spec_id] = record  # persist the update
 
     publish("ProductSpecificationAttributeValueChangeEvent", {
         "productSpecification": record,
@@ -364,8 +362,6 @@ def patch_offering(offering_id: str, body: ProductOfferingUpdate) -> JSONRespons
     updates = body.model_dump(by_alias=True, exclude_none=True)
     record.update(updates)
     record["lastUpdate"] = datetime.now(timezone.utc).isoformat()
-
-    product_offerings[offering_id] = record  # persist the update
 
     publish("ProductOfferingAttributeValueChangeEvent", {
         "productOffering": record,

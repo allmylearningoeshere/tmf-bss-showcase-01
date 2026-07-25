@@ -83,8 +83,6 @@ async def _advance_order(order_id: str) -> None:
     for item in record.get("orderItem", []):
         item["state"] = "inProgress"
 
-    product_orders[order_id] = record  # persist the transition
-
     publish("ProductOrderStateChangeEvent", {
         "productOrder": {
             "id": record["id"],
@@ -109,8 +107,6 @@ async def _advance_order(order_id: str) -> None:
 
     for item in record.get("orderItem", []):
         item["state"] = "completed"
-
-    product_orders[order_id] = record  # persist the transition
 
     publish("ProductOrderStateChangeEvent", {
         "productOrder": {
@@ -401,8 +397,6 @@ def patch_order(order_id: str, body: ProductOrderUpdate) -> JSONResponse:
 
     record.update(updates)
     record["lastUpdatedAt"] = now
-
-    product_orders[order_id] = record  # persist the update
 
     return JSONResponse(content=record)
 

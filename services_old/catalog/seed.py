@@ -114,8 +114,7 @@ def _seed() -> None:
     ]
 
     for s in specs:
-        if s["id"] not in product_specifications:
-            product_specifications[s["id"]] = s
+        product_specifications[s["id"]] = s
 
     # ------------------------------------------------------------------
     # Product Offering Prices (embedded inline in offerings below)
@@ -244,22 +243,8 @@ def _seed() -> None:
     ]
 
     for o in offerings:
-        if o["id"] not in product_offerings:
-            product_offerings[o["id"]] = o
+        product_offerings[o["id"]] = o
 
 
-def seed_if_empty() -> None:
-    """
-    Seeds the catalogue only when it is empty.
-
-    With persistent storage the catalogue survives restarts, so re-seeding on
-    every boot would be wasted writes — and would silently revert any edits
-    made through the PATCH endpoints. This runs the seed exactly once, on a
-    fresh database.
-    """
-    try:
-        if len(product_offerings) == 0:
-            _seed()
-    except Exception:
-        # Never let a seeding problem stop the app from booting.
-        pass
+# Run on import
+_seed()

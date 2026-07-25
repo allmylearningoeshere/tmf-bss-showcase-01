@@ -16,7 +16,7 @@ export default function Confirmation({ plan, form, shipping, orderId, piRef, onR
 
       <InfoCard label="Order reference" value={orderId || '—'} mono />
       <InfoCard label="Product inventory reference" value={piRef || 'Provisioning…'} mono />
-      <InfoCard label="Delivering to" value={`${form.address}, ${form.city}, ${form.postcode}, Germany`} />
+      <InfoCard label="Delivering to" value={`${form.address} ${form.houseNumber}, ${form.city}, ${form.postcode}, Germany`} />
       <InfoCard label="Plan" value={`${plan?.name} · ${plan?.priceLabel}/mo`} />
 
       <button className="btn" onClick={onRestart}>Place another order</button>

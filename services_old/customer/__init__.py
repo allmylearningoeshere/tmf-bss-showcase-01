@@ -222,7 +222,6 @@ def patch_customer(customer_id: str, body: CustomerUpdate) -> JSONResponse:
 
     record.update(updates)
     record["lastUpdatedAt"] = now
-    customers[customer_id] = record  # persist the update
 
     event_type = (
         "CustomerStateChangeEvent"

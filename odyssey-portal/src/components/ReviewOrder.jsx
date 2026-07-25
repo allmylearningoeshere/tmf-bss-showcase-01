@@ -18,7 +18,7 @@ export default function ReviewOrder({ plan, form, shipping, onBack, onPlace }) {
           <div className="review-title">Delivery</div>
           <Row label="Method" value={shipping.name} />
           <Row label="Estimated arrival" value={shipping.desc} />
-          <Row label="Address" value={`${form.address}, ${form.city}, ${form.postcode}`} />
+          <Row label="Address" value={`${form.address} ${form.houseNumber}, ${form.city}, ${form.postcode}`} />
           <Row label="Country" value="Germany" />
           <Row label="Delivery cost" value={shipping.price} />
         </div>

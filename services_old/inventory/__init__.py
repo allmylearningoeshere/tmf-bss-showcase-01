@@ -232,7 +232,6 @@ def patch_product(product_id: str, body: ProductUpdate) -> JSONResponse:
     current_status = record.get("status")
     record.update(updates)
     record["lastUpdatedAt"] = now
-    product_inventory[product_id] = record  # persist the update
 
     event_type = (
         "ProductStatusChangeEvent"

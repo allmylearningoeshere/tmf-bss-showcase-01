@@ -248,7 +248,6 @@ def patch_billing_account(account_id: str, body: BillingAccountUpdate) -> JSONRe
     previous_state = record.get("state")
     record.update(updates)
     record["lastUpdatedAt"] = now
-    billing_accounts[account_id] = record  # persist the update
 
     event_type = (
         "BillingAccountStateChangeEvent"

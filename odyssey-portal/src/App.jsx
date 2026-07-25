@@ -16,7 +16,7 @@ const SHIPPING = [
 
 const EMPTY_FORM = {
   firstName: '', lastName: '', email: '', phone: '',
-  address: '', city: '', postcode: '',
+  address: '', houseNumber: '', city: '', postcode: '',
 }
 
 export default function App() {

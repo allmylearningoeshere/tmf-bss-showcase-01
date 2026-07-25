@@ -193,7 +193,6 @@ def patch_individual(individual_id: str, body: IndividualUpdate) -> JSONResponse
     updates = body.model_dump(by_alias=True, exclude_none=True)
     record.update(updates)
     record["lastUpdatedAt"] = datetime.now(timezone.utc).isoformat()
-    individuals[individual_id] = record  # persist the update
 
     publish("IndividualAttributeValueChangeEvent", {
         "individual": record,

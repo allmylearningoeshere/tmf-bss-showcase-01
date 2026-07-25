@@ -16,7 +16,7 @@ export default function DetailsForm({
     setErrors((prev) => ({ ...prev, [k]: validateField(k, value) }))
   }
 
-  const fields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'postcode']
+  const fields = ['firstName', 'lastName', 'email', 'phone', 'address', 'houseNumber', 'city', 'postcode']
   const allFilled = fields.every((f) => (form[f] ?? '').trim() !== '')
   const noErrors = fields.every((f) => !validateField(f, form[f]))
   const valid = allFilled && noErrors
@@ -66,14 +66,15 @@ export default function DetailsForm({
 
       <section className="section">
         <div className="section-label">Delivery address</div>
+        <p className="section-caption">Please enter the postcode to look up.</p>
         <div className="form-group full">
-          <label>Street address</label>
+          <label>Street name</label>
           <div className="lookup-wrap">
             <input
               type="text"
               value={form.address}
               onChange={set('address')}
-              placeholder="Musterstraße 12"
+              placeholder="Musterstraße"
               aria-invalid={!!errors.address}
               className={errors.address ? 'invalid' : ''}
             />
@@ -86,6 +87,10 @@ export default function DetailsForm({
             </button>
           </div>
           {errors.address && <span className="field-error">{errors.address}</span>}
+        </div>
+        <div className="form-row street-number-row">
+          <Field label="House number" value={form.houseNumber} onChange={set('houseNumber')} error={errors.houseNumber} placeholder="12" />
+          <div className="form-group" aria-hidden="true"></div>
         </div>
         <div className="form-row">
           <Field label="City" value={form.city} onChange={set('city')} error={errors.city} placeholder="Berlin" />

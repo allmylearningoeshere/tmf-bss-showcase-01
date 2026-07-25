@@ -105,6 +105,26 @@ app.include_router(address_lookup_router)
 
 
 # ---------------------------------------------------------------------------
+# Startup — database
+# ---------------------------------------------------------------------------
+
+@app.on_event("startup")
+def _startup() -> None:
+    """
+    Prepares persistent storage before the app serves traffic.
+
+    Creates any missing tables, then seeds the product catalogue only if it is
+    empty. On an existing database both steps are effectively no-ops, so
+    restarts are cheap and previously stored data is left untouched.
+    """
+    from shared.db.session import init_db
+    from services.catalog.seed import seed_if_empty
+
+    init_db()
+    seed_if_empty()
+
+
+# ---------------------------------------------------------------------------
 # Health check
 # ---------------------------------------------------------------------------
 
