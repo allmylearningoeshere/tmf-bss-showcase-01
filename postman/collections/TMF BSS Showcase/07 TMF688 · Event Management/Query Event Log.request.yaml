@@ -1,0 +1,13 @@
+$kind: http-request
+name: Query Event Log
+method: GET
+url: '{{baseUrl}}/hub'
+order: 1000
+description: Returns rolling log of domain events. Supports eventType and domain filters.
+queryParams:
+  - key: offset
+    value: '0'
+    disabled: true
+  - key: limit
+    value: '50'
+    disabled: true

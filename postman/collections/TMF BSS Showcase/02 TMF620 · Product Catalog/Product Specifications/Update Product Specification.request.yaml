@@ -1,0 +1,14 @@
+$kind: http-request
+name: Update Product Specification
+method: PATCH
+url: '{{baseUrl}}/productCatalog/v4/productSpecification/{{specId}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "lifecycleStatus": "Retired"
+    }

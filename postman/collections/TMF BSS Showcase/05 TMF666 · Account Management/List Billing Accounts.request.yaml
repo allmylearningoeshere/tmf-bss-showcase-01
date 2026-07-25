@@ -1,0 +1,12 @@
+$kind: http-request
+name: List Billing Accounts
+method: GET
+url: '{{baseUrl}}/accountManagement/v4/billingAccount'
+order: 2000
+queryParams:
+  - key: offset
+    value: '0'
+    disabled: true
+  - key: limit
+    value: '50'
+    disabled: true

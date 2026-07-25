@@ -1,0 +1,6 @@
+$kind: http-request
+name: Get Individual
+method: GET
+url: '{{baseUrl}}/party/v5/individual/{{individualId}}'
+order: 3000
+description: Returns a single Individual by ID.

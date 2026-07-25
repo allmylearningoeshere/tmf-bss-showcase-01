@@ -1,0 +1,15 @@
+$kind: http-request
+name: Cancel Product Order
+method: PATCH
+url: '{{baseUrl}}/productOrderingManagement/v4/productOrder/{{orderId}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "state": "cancelled",
+      "cancellationReason": "Customer requested cancellation"
+    }

@@ -1,0 +1,13 @@
+$kind: http-request
+name: List Individuals
+method: GET
+url: '{{baseUrl}}/party/v5/individual'
+order: 2000
+description: Returns paginated list of individuals. Supports fullName and status filters.
+queryParams:
+  - key: offset
+    value: '0'
+    disabled: true
+  - key: limit
+    value: '50'
+    disabled: true

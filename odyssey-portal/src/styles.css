@@ -347,3 +347,52 @@ body {
   .street-number-row { grid-template-columns: 1fr; }
   .street-number-row .form-group[aria-hidden="true"] { display: none; }
 }
+
+/* Track order link (landing screen) -------------------------------------- */
+.track-link {
+  display: block; width: 100%; margin-top: 14px; padding: 12px;
+  background: transparent; border: 1px solid var(--line); border-radius: var(--radius);
+  color: var(--ink-2); font-size: 13px; font-weight: 500; cursor: pointer;
+  font-family: var(--sans); text-align: center; transition: all .15s;
+}
+.track-link:hover { border-color: var(--red); color: var(--red); }
+
+/* Retrieve view ---------------------------------------------------------- */
+.link-back {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 1rem;
+  background: none; border: none; color: var(--ink-2); font-size: 13px;
+  cursor: pointer; font-family: var(--sans); padding: 0;
+}
+.link-back:hover { color: var(--red); }
+
+.tabs { display: flex; gap: 4px; margin-bottom: 1.25rem; border-bottom: 1px solid var(--line); }
+.tab {
+  flex: 1; padding: 10px 12px; background: none; border: none;
+  border-bottom: 2px solid transparent; color: var(--ink-3);
+  font-size: 14px; font-weight: 500; cursor: pointer; font-family: var(--sans);
+  transition: all .15s; margin-bottom: -1px;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--red); border-bottom-color: var(--red); }
+
+.retrieve-search { display: flex; gap: 8px; margin-bottom: 1rem; }
+.retrieve-search input {
+  flex: 1; height: 44px; border: 1px solid var(--line-strong); border-radius: var(--radius);
+  padding: 0 12px; font-size: 14px; font-family: var(--sans); outline: none;
+}
+.retrieve-search input:focus { border-color: var(--red); border-width: 1.5px; }
+.retrieve-btn { width: auto; height: 44px; padding: 0 22px; margin-top: 0; flex-shrink: 0; }
+
+/* Status badge ----------------------------------------------------------- */
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 600;
+}
+.badge.ok { background: var(--success-bg); color: var(--success-fg); }
+.badge.progress { background: #fff3e0; color: #b45309; }
+.badge.cancelled { background: #fdecea; color: #a12626; }
+
+@media (max-width: 520px) {
+  .retrieve-search { flex-direction: column; }
+  .retrieve-btn { width: 100%; }
+}

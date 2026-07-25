@@ -1,0 +1,10 @@
+$kind: http-request
+name: Lookup Streets by Postcode
+method: GET
+url: '{{baseUrl}}/addressLookup/v1/streets'
+order: 1000
+description: Proxies to OpenPLZ API. Returns streets for a German 5-digit postcode.
+queryParams:
+  - key: postalCode
+    value: '10115'
+    disabled: false

@@ -1,0 +1,12 @@
+$kind: http-request
+name: List Customers
+method: GET
+url: '{{baseUrl}}/customerManagement/v4/customer'
+order: 2000
+queryParams:
+  - key: offset
+    value: '0'
+    disabled: true
+  - key: limit
+    value: '50'
+    disabled: true

@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get Product Specification
+method: GET
+url: '{{baseUrl}}/productCatalog/v4/productSpecification/{{specId}}'
+order: 3000

@@ -1,0 +1,14 @@
+$kind: http-request
+name: Update Product Instance
+method: PATCH
+url: '{{baseUrl}}/productInventory/v4/product/{{productId}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "suspended"
+    }

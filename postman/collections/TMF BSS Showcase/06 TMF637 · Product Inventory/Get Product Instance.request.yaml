@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get Product Instance
+method: GET
+url: '{{baseUrl}}/productInventory/v4/product/{{productId}}'
+order: 3000

@@ -1,0 +1,20 @@
+$kind: http-request
+name: Update Individual
+method: PATCH
+url: '{{baseUrl}}/party/v5/individual/{{individualId}}'
+order: 4000
+description: Partially updates an Individual. Only supplied fields are merged.
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "partyCharacteristic": [
+        {
+          "name": "loyaltyTier",
+          "value": "Platinum"
+        }
+      ]
+    }

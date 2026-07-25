@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get Product Offering
+method: GET
+url: '{{baseUrl}}/productCatalog/v4/productOffering/{{offeringId}}'
+order: 3000

@@ -1,0 +1,29 @@
+$kind: http-request
+name: Create Product Instance
+method: POST
+url: '{{baseUrl}}/productInventory/v4/product'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Mobile 5G Unlimited",
+      "description": "Manually provisioned product instance",
+      "status": "active",
+      "isBundle": false,
+      "isCustomerVisible": true,
+      "productOffering": {
+        "id": "offering-5g-unlimited",
+        "name": "Mobile 5G Unlimited"
+      },
+      "relatedParty": [
+        {
+          "id": "{{individualId}}",
+          "name": "Ajay Kumar",
+          "role": "customer"
+        }
+      ]
+    }

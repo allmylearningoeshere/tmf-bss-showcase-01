@@ -1,0 +1,5 @@
+$kind: http-request
+name: List Hub Subscriptions
+method: GET
+url: '{{baseUrl}}/hub/subscription'
+order: 4000

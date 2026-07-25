@@ -1,0 +1,41 @@
+$kind: http-request
+name: Place Product Order
+method: POST
+url: '{{baseUrl}}/productOrderingManagement/v4/productOrder'
+order: 1000
+description: 'Places a new ProductOrder. State machine auto-advances: acknowledged → inProgress (3s) → completed (8s).'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "description": "New 5G plan order",
+      "externalId": "CRM-2026-0042",
+      "priority": "4",
+      "relatedParty": [
+        {
+          "id": "{{individualId}}",
+          "name": "Ajay Kumar",
+          "role": "customer"
+        }
+      ],
+      "orderItem": [
+        {
+          "id": "1",
+          "quantity": 1,
+          "action": "add",
+          "productOffering": {
+            "id": "offering-5g-unlimited",
+            "name": "Mobile 5G Unlimited"
+          }
+        }
+      ],
+      "note": [
+        {
+          "author": "Sales Agent",
+          "text": "VIP customer - expedite"
+        }
+      ]
+    }

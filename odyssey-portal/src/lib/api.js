@@ -175,6 +175,11 @@ export function listInventory() {
   return request('/productInventory/v4/product')
 }
 
+// Retrieves a single product instance by id (TMF637).
+export function getProduct(id) {
+  return request(`/productInventory/v4/product/${id}`)
+}
+
 // ---------------------------------------------------------------------------
 // Address Lookup (OpenPLZ proxy)
 // ---------------------------------------------------------------------------

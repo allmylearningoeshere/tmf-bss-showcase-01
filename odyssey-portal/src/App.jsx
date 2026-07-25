@@ -8,6 +8,7 @@ import DetailsForm from './components/DetailsForm.jsx'
 import ReviewOrder from './components/ReviewOrder.jsx'
 import Processing from './components/Processing.jsx'
 import Confirmation from './components/Confirmation.jsx'
+import RetrieveView from './components/RetrieveView.jsx'
 
 const SHIPPING = [
   { id: 'std', name: 'Standard delivery', desc: '3–5 working days', price: 'Free', cost: 0, icon: 'M4 4h16v12H4z M4 8l8 5 8-5' },
@@ -20,6 +21,7 @@ const EMPTY_FORM = {
 }
 
 export default function App() {
+  const [view, setView] = useState('order')  // 'order' | 'retrieve'
   const [stage, setStage] = useState(1)
   const [plans, setPlans] = useState([])
   const [plansError, setPlansError] = useState(null)
@@ -69,67 +71,78 @@ export default function App() {
         </div>
       </header>
 
-      <Stepper stage={stage} />
+      {view === 'retrieve' ? (
+        <RetrieveView onBack={() => setView('order')} />
+      ) : (
+        <>
+          <Stepper stage={stage} />
 
-      {stage === 1 && (
-        <PlanCards
-          plans={plans}
-          loading={loadingPlans}
-          error={plansError}
-          selectedId={selectedPlanId}
-          onSelect={setSelectedPlanId}
-          onContinue={() => setStage(2)}
-        />
-      )}
+          {stage === 1 && (
+            <>
+              <PlanCards
+                plans={plans}
+                loading={loadingPlans}
+                error={plansError}
+                selectedId={selectedPlanId}
+                onSelect={setSelectedPlanId}
+                onContinue={() => setStage(2)}
+              />
+              <button className="track-link" onClick={() => setView('retrieve')}>
+                Already ordered? Track your order
+              </button>
+            </>
+          )}
 
-      {stage === 2 && (
-        <DetailsForm
-          plan={selectedPlan}
-          form={form}
-          setForm={setForm}
-          shipping={shipping}
-          setShipping={setShipping}
-          shippingOptions={SHIPPING}
-          onBack={() => setStage(1)}
-          onContinue={() => setStage(3)}
-        />
-      )}
+          {stage === 2 && (
+            <DetailsForm
+              plan={selectedPlan}
+              form={form}
+              setForm={setForm}
+              shipping={shipping}
+              setShipping={setShipping}
+              shippingOptions={SHIPPING}
+              onBack={() => setStage(1)}
+              onContinue={() => setStage(3)}
+            />
+          )}
 
-      {stage === 3 && (
-        <ReviewOrder
-          plan={selectedPlan}
-          form={form}
-          shipping={selectedShipping}
-          onBack={() => setStage(2)}
-          onPlace={placeOrder}
-        />
-      )}
+          {stage === 3 && (
+            <ReviewOrder
+              plan={selectedPlan}
+              form={form}
+              shipping={selectedShipping}
+              onBack={() => setStage(2)}
+              onPlace={placeOrder}
+            />
+          )}
 
-      {stage === 4 && (
-        <Processing
-          steps={STEPS}
-          stepIndex={journey.stepIndex}
-          orderState={journey.orderState}
-          error={journey.error}
-          onRetry={placeOrder}
-          onBack={() => setStage(3)}
-        />
-      )}
+          {stage === 4 && (
+            <Processing
+              steps={STEPS}
+              stepIndex={journey.stepIndex}
+              orderState={journey.orderState}
+              error={journey.error}
+              onRetry={placeOrder}
+              onBack={() => setStage(3)}
+            />
+          )}
 
-      {stage === 5 && (
-        <Confirmation
-          plan={selectedPlan}
-          form={form}
-          shipping={selectedShipping}
-          orderId={journey.orderId}
-          piRef={journey.piRef}
-          onRestart={() => {
-            setStage(1)
-            setSelectedPlanId(null)
-            setForm(EMPTY_FORM)
-            setShipping('std')
-          }}
-        />
+          {stage === 5 && (
+            <Confirmation
+              plan={selectedPlan}
+              form={form}
+              shipping={selectedShipping}
+              orderId={journey.orderId}
+              piRef={journey.piRef}
+              onRestart={() => {
+                setStage(1)
+                setSelectedPlanId(null)
+                setForm(EMPTY_FORM)
+                setShipping('std')
+              }}
+            />
+          )}
+        </>
       )}
 
       <footer className="foot">

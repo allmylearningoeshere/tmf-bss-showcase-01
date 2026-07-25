@@ -1,0 +1,12 @@
+$kind: http-request
+name: List Product Orders
+method: GET
+url: '{{baseUrl}}/productOrderingManagement/v4/productOrder'
+order: 2000
+queryParams:
+  - key: offset
+    value: '0'
+    disabled: true
+  - key: limit
+    value: '50'
+    disabled: true

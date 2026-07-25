@@ -1,0 +1,6 @@
+$kind: http-request
+name: Delete Individual
+method: DELETE
+url: '{{baseUrl}}/party/v5/individual/{{individualId}}'
+order: 5000
+description: Removes an Individual party. Returns 204 No Content.

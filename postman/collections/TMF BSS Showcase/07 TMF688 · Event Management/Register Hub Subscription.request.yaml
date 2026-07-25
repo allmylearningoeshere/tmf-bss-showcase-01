@@ -1,0 +1,15 @@
+$kind: http-request
+name: Register Hub Subscription
+method: POST
+url: '{{baseUrl}}/hub'
+order: 3000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "callback": "https://your-callback-url.example.com/events",
+      "query": "eventType=ProductOrderStateChangeEvent"
+    }

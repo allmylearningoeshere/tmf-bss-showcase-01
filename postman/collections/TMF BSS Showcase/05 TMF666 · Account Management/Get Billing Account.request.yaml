@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get Billing Account
+method: GET
+url: '{{baseUrl}}/accountManagement/v4/billingAccount/{{accountId}}'
+order: 3000

@@ -1,0 +1,5 @@
+$kind: http-request
+name: Delete Customer
+method: DELETE
+url: '{{baseUrl}}/customerManagement/v4/customer/{{customerId}}'
+order: 5000

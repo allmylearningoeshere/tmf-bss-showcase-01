@@ -1,0 +1,32 @@
+$kind: http-request
+name: Create Individual
+method: POST
+url: '{{baseUrl}}/party/v5/individual'
+order: 1000
+description: Creates a new Individual party. Only fullName is required.
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "fullName": "Ajay Kumar",
+      "givenName": "Ajay",
+      "familyName": "Kumar",
+      "contactMedium": [
+        {
+          "mediumType": "email",
+          "preferred": true,
+          "characteristic": {
+            "emailAddress": "ajay@example.com"
+          }
+        }
+      ],
+      "partyCharacteristic": [
+        {
+          "name": "loyaltyTier",
+          "value": "Gold"
+        }
+      ]
+    }

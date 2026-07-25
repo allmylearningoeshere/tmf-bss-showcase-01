@@ -1,0 +1,12 @@
+$kind: http-request
+name: List Product Offerings
+method: GET
+url: '{{baseUrl}}/productCatalog/v4/productOffering'
+order: 2000
+queryParams:
+  - key: offset
+    value: '0'
+    disabled: true
+  - key: limit
+    value: '50'
+    disabled: true

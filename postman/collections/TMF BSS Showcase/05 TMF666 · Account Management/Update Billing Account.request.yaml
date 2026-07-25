@@ -1,0 +1,14 @@
+$kind: http-request
+name: Update Billing Account
+method: PATCH
+url: '{{baseUrl}}/accountManagement/v4/billingAccount/{{accountId}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "state": "suspended"
+    }

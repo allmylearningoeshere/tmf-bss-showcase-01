@@ -1,0 +1,5 @@
+$kind: http-request
+name: Delete Product Instance
+method: DELETE
+url: '{{baseUrl}}/productInventory/v4/product/{{productId}}'
+order: 5000

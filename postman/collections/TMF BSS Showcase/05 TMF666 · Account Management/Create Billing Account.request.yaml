@@ -1,0 +1,24 @@
+$kind: http-request
+name: Create Billing Account
+method: POST
+url: '{{baseUrl}}/accountManagement/v4/billingAccount'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Ajay Kumar - Personal Account",
+      "accountType": "individual",
+      "currency": "EUR",
+      "state": "active",
+      "relatedParty": [
+        {
+          "id": "{{individualId}}",
+          "name": "Ajay Kumar",
+          "role": "accountOwner"
+        }
+      ]
+    }

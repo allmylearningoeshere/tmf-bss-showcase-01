@@ -1,0 +1,22 @@
+$kind: http-request
+name: Create Customer
+method: POST
+url: '{{baseUrl}}/customerManagement/v4/customer'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Ajay Kumar",
+      "status": "approved",
+      "customerCategory": "residential",
+      "engagedParty": {
+        "id": "{{individualId}}",
+        "href": "{{baseUrl}}/party/v5/individual/{{individualId}}",
+        "name": "Ajay Kumar",
+        "@referredType": "Individual"
+      }
+    }

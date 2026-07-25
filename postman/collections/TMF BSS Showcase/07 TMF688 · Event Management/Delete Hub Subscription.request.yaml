@@ -1,0 +1,5 @@
+$kind: http-request
+name: Delete Hub Subscription
+method: DELETE
+url: '{{baseUrl}}/hub/subscription/{{subscriptionId}}'
+order: 5000

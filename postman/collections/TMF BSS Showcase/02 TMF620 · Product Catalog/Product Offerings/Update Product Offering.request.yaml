@@ -1,0 +1,14 @@
+$kind: http-request
+name: Update Product Offering
+method: PATCH
+url: '{{baseUrl}}/productCatalog/v4/productOffering/{{offeringId}}'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "lifecycleStatus": "Obsolete"
+    }

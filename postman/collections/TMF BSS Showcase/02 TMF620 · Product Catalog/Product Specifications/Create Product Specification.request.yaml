@@ -1,0 +1,29 @@
+$kind: http-request
+name: Create Product Specification
+method: POST
+url: '{{baseUrl}}/productCatalog/v4/productSpecification'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "5G Unlimited Plan",
+      "description": "High-speed 5G data plan with unlimited data",
+      "lifecycleStatus": "Active",
+      "productSpecCharacteristic": [
+        {
+          "name": "dataAllowance",
+          "description": "Monthly data allowance",
+          "valueType": "string",
+          "productSpecCharacteristicValue": [
+            {
+              "value": "Unlimited",
+              "isDefault": true
+            }
+          ]
+        }
+      ]
+    }

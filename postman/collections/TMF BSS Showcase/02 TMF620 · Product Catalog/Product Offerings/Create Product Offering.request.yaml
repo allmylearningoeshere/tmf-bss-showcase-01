@@ -1,0 +1,21 @@
+$kind: http-request
+name: Create Product Offering
+method: POST
+url: '{{baseUrl}}/productCatalog/v4/productOffering'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Mobile 5G Unlimited",
+      "description": "Unlimited 5G mobile plan",
+      "lifecycleStatus": "Active",
+      "isBundle": false,
+      "productSpecification": {
+        "id": "{{specId}}",
+        "name": "5G Unlimited Plan"
+      }
+    }

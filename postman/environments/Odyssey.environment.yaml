@@ -1,0 +1,38 @@
+name: Odyssey
+values:
+  - key: baseUrl
+    value: 'https://tmf-bss-showcase-01.onrender.com'
+    enabled: true
+    type: default
+  - key: individualId
+    value: ''
+    enabled: true
+    type: default
+  - key: specId
+    value: ''
+    enabled: true
+    type: default
+  - key: offeringId
+    value: ''
+    enabled: true
+    type: default
+  - key: orderId
+    value: ''
+    enabled: true
+    type: default
+  - key: customerId
+    value: ''
+    enabled: true
+    type: default
+  - key: accountId
+    value: ''
+    enabled: true
+    type: default
+  - key: productId
+    value: ''
+    enabled: true
+    type: default
+  - key: subscriptionId
+    value: ''
+    enabled: true
+    type: default
