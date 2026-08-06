@@ -1,18 +1,11 @@
 """
-Entity stores.
-
-Historically these were plain in-memory dicts, which meant every record was
-lost whenever the process restarted. They are now database-backed `Store`
-objects that expose the same dict-shaped interface (`store[id] = record`,
-`.get()`, `.values()`, `.pop()`), so the service routers continue to work
-unchanged while their data persists in Postgres.
-
-See `shared/db/repository.py` for the implementation and `shared/db/models.py`
-for the schema.
+Entity stores — database-backed Store objects with dict-shaped interface.
+See `shared/db/repository.py` for the implementation.
 """
 
 from shared.db.repository import (  # noqa: F401
     billing_accounts,
+    customer_bills,
     customers,
     individuals,
     organisations,
@@ -20,6 +13,9 @@ from shared.db.repository import (  # noqa: F401
     product_offerings,
     product_orders,
     product_specifications,
+    service_orders,
+    services,
+    shipments,
 )
 
 __all__ = [
@@ -31,4 +27,8 @@ __all__ = [
     "product_offerings",
     "product_orders",
     "product_inventory",
+    "shipments",
+    "service_orders",
+    "services",
+    "customer_bills",
 ]

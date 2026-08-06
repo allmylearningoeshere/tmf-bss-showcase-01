@@ -35,6 +35,10 @@ _DOMAIN_MAP = {
     "BillingAccount": "account",
     "Customer": "customer",
     "Product": "inventory",
+    "Shipment": "shipping",
+    "ServiceOrder": "provisioning",
+    "Service": "provisioning",
+    "CustomerBill": "billing",
 }
 
 

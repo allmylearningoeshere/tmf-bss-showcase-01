@@ -182,3 +182,71 @@ class EventRecord(Base, TimestampMixin):
 
 # Composite index: the retrieve screens look products up by order.
 Index("ix_products_order_customer", Product.order_id, Product.customer_id)
+
+
+# ---------------------------------------------------------------------------
+# TMF700 — Shipment Tracking
+# ---------------------------------------------------------------------------
+
+class Shipment(Base, TimestampMixin):
+    __tablename__ = "shipments"
+
+    id = Column(String(64), primary_key=True)
+    status = Column(String(64), index=True)
+    order_id = Column(
+        String(64), ForeignKey("product_orders.id", ondelete="SET NULL"), index=True
+    )
+    tracking_number = Column(String(128), index=True)
+    doc = Column(JSONDoc, nullable=False)
+
+
+# ---------------------------------------------------------------------------
+# TMF641 — Service Order
+# ---------------------------------------------------------------------------
+
+class ServiceOrder(Base, TimestampMixin):
+    __tablename__ = "service_orders"
+
+    id = Column(String(64), primary_key=True)
+    state = Column(String(64), index=True)
+    order_id = Column(
+        String(64), ForeignKey("product_orders.id", ondelete="SET NULL"), index=True
+    )
+    doc = Column(JSONDoc, nullable=False)
+
+
+# ---------------------------------------------------------------------------
+# TMF638 — Service Inventory
+# ---------------------------------------------------------------------------
+
+class Service(Base, TimestampMixin):
+    __tablename__ = "services"
+
+    id = Column(String(64), primary_key=True)
+    name = Column(String(255), index=True)
+    state = Column(String(64), index=True)
+    order_id = Column(
+        String(64), ForeignKey("product_orders.id", ondelete="SET NULL"), index=True
+    )
+    customer_id = Column(
+        String(64), ForeignKey("customers.id", ondelete="SET NULL"), index=True
+    )
+    doc = Column(JSONDoc, nullable=False)
+
+
+# ---------------------------------------------------------------------------
+# TMF678 — Customer Bill
+# ---------------------------------------------------------------------------
+
+class CustomerBill(Base, TimestampMixin):
+    __tablename__ = "customer_bills"
+
+    id = Column(String(64), primary_key=True)
+    state = Column(String(64), index=True)
+    billing_account_id = Column(
+        String(64), ForeignKey("billing_accounts.id", ondelete="SET NULL"), index=True
+    )
+    order_id = Column(
+        String(64), ForeignKey("product_orders.id", ondelete="SET NULL"), index=True
+    )
+    doc = Column(JSONDoc, nullable=False)

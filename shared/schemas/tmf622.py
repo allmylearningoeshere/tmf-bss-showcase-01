@@ -80,6 +80,9 @@ class ProductOrderItem(BaseModel):
         default=None, alias="productOffering"
     )
     product: Optional[ProductRef] = None
+    product_characteristic: Optional[list[dict]] = Field(
+        default=None, alias="productCharacteristic"
+    )
     at_type: Optional[str] = Field("ProductOrderItem", alias="@type")
 
 

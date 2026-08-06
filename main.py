@@ -32,6 +32,10 @@ from services.account import router as account_router
 from services.customer import router as customer_router
 from services.inventory import router as inventory_router
 from services.address_lookup import router as address_lookup_router
+from services.shipping import router as shipping_router
+from services.serviceorder import router as serviceorder_router
+from services.serviceinventory import router as serviceinventory_router
+from services.billing import router as billing_router
 from shared.events import (
     get_event_log,
     get_event_stats,
@@ -102,6 +106,10 @@ app.include_router(account_router)
 app.include_router(customer_router)
 app.include_router(inventory_router)
 app.include_router(address_lookup_router)
+app.include_router(shipping_router)
+app.include_router(serviceorder_router)
+app.include_router(serviceinventory_router)
+app.include_router(billing_router)
 
 
 # ---------------------------------------------------------------------------
@@ -143,7 +151,7 @@ def health() -> dict:
         "status": "ok",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "version": "1.0.0",
-        "services": ["TMF632", "TMF620", "TMF622", "TMF629", "TMF637", "TMF666", "TMF688"],
+        "services": ["TMF620", "TMF622", "TMF629", "TMF632", "TMF637", "TMF638", "TMF641", "TMF666", "TMF678", "TMF688", "TMF700"],
     }
 
 

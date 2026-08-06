@@ -248,3 +248,56 @@ product_specifications = Store(models.ProductSpecification, _spec_columns)
 product_offerings = Store(models.ProductOffering, _offering_columns)
 product_orders = Store(models.ProductOrder, _order_columns)
 product_inventory = Store(models.Product, _product_columns)
+
+
+# --- TMF700 Shipment ---
+
+def _shipment_columns(doc: dict) -> dict:
+    return {
+        "status": doc.get("status"),
+        "order_id": doc.get("productOrder", {}).get("id") if doc.get("productOrder") else None,
+        "tracking_number": doc.get("trackingNumber"),
+    }
+
+
+shipments = Store(models.Shipment, _shipment_columns)
+
+
+# --- TMF641 Service Order ---
+
+def _service_order_columns(doc: dict) -> dict:
+    return {
+        "state": doc.get("state"),
+        "order_id": doc.get("productOrder", {}).get("id") if doc.get("productOrder") else None,
+    }
+
+
+service_orders = Store(models.ServiceOrder, _service_order_columns)
+
+
+# --- TMF638 Service Inventory ---
+
+def _service_columns(doc: dict) -> dict:
+    return {
+        "name": doc.get("name"),
+        "state": doc.get("state"),
+        "order_id": doc.get("productOrder", {}).get("id") if doc.get("productOrder") else None,
+        "customer_id": _related_party_id(doc),
+    }
+
+
+services = Store(models.Service, _service_columns)
+
+
+# --- TMF678 Customer Bill ---
+
+def _customer_bill_columns(doc: dict) -> dict:
+    ba = doc.get("billingAccount") or {}
+    return {
+        "state": doc.get("state"),
+        "billing_account_id": ba.get("id"),
+        "order_id": doc.get("productOrder", {}).get("id") if doc.get("productOrder") else None,
+    }
+
+
+customer_bills = Store(models.CustomerBill, _customer_bill_columns)
